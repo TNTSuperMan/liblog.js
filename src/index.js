@@ -5,11 +5,10 @@ import LoadTemplate from "./load/template.js";
 import WriteCredit from "./credit.js";
 import Redirect from "./redirect.js";
 import GenPage from "./genpage.js";
-import {err,main_elm,errpage} from "./global.js";
+import {err} from "./global.js";
 (async()=>{
     WriteCredit()
     const config = await LoadConfig()
-
     const page = LoadPage(config)
     const plugdata_promise = LoadPlugin(config)
     const temp = LoadTemplate(config)
