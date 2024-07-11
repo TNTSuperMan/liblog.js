@@ -1,4 +1,4 @@
-import {main_elm,errpage} from "../global.js"
+import {main_elm,errpage,path} from "../global.js"
 export default config =>{
     let page_promise = [];
     let page_elms = [];
@@ -8,7 +8,7 @@ export default config =>{
         if(e.id === "main"){
             let z = Object.fromEntries(new URLSearchParams(window.location.search));
             if(z.p != undefined){
-                pass = f.first + z.p + f.last;
+                pass = path.first + z.p + path.last;
             }
         }
         let pe = document.createElement(e.ename);

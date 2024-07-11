@@ -1,4 +1,9 @@
-import {textplug} from "./global.js"
+import {plugin} from "./global.js"
+function textplug(text){
+    let ret = text
+    plugin.text.forEach(e=>ret=e(ret))
+    return ret
+}
 const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回のメイン＊
     let layerElem = [elm];
     let now_txtelem = null;
@@ -12,18 +17,16 @@ const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回�
         document.querySelector("title").innerText = st[0];
     }
     st.forEach((p,i)=>{
-        if(p[0] === '+') is_native = false;
+        if(p[0] == '+') is_native = false;
         if(is_native) {
             now_elem().innerHTML += p + "\n";
             return;
         }
-        if(p[0]!=='/' || p[1]==='/'){
+        if(p[0]!='/' || p[1]=='/'){
             if(is_txtmode) layerElem.pop();
             is_txtmode = false;
         }
-        if(p[0]!==':' && p[0]!=='='){
-            now_txtelem = null;
-        }
+        if(p[0]!=':' && p[0]!='=') now_txtelem = null;
         switch(p[0]){
             case '/':
                 if(p[1]==='/') break;
@@ -89,6 +92,15 @@ const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回�
             case '+':
                 is_native = false;
                 layerElem.pop();
+                break;
+            case '@':
+                m = p.split('@')
+                if(m.length < 2) break;
+                let func = plugin.component.find(e=>e[1] == m[1])
+                if(!func)break;
+                m.shift()
+                m.shift()
+                now_elem().appendChild(func(m))
                 break;
         }
     });

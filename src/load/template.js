@@ -4,7 +4,7 @@ export default config =>{
         config.temp.forEach(e=>{ret.base.push(e.base);ret.name.push(e.name)});
     }
     catch{
-        return 404;
+        err("テンプレートの記述が不正です");
     }
     return ret;
 }

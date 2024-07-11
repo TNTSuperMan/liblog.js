@@ -10,12 +10,9 @@ import {err} from "./global.js";
     WriteCredit()
     const config = await LoadConfig()
     const page = LoadPage(config)
-    const plugdata_promise = LoadPlugin(config)
+    const plugin = LoadPlugin(config)
     const temp = LoadTemplate(config)
-    if(temp === 404){
-        err("テンプレートファイル\"" + config.tempfile + "\"の記述が不正です");
-    }
-    await Promise.all(plugdata_promise);
+    await plugin;
     //#region ページ構築
     document.head.appendChild(document.createElement("title")); //タイトル要素
     Promise.all(page.text).then(ptxts=>
