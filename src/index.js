@@ -17,9 +17,7 @@ import {err} from "./global.js";
     document.head.appendChild(document.createElement("title")); //タイトル要素
     Promise.all(page.text).then(ptxts=>
         page.elms.forEach((element,i)=>
-            GenPage(ptxts[i],element,(page.ids[i]==="main"?1:0),
-                temp
-                )))
+            GenPage(ptxts[i],element,(page.ids[i]==="main"?1:0),temp)))
     .then(()=>{
         let get_arg = Object.fromEntries(new URLSearchParams(window.location.search));
         if(get_arg.s != undefined){

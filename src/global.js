@@ -10,6 +10,6 @@ export let plugin = {
     component:[]
 }
 export let main_elm
-export let path
+export var path = {}
 export const errpage = "404\n:p:404 Not Found\n" + 
     ":p:ページファイルが存在しません。";
