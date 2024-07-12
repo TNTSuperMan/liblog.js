@@ -5,7 +5,7 @@ import LoadTemplate from "./load/template.js";
 import WriteCredit from "./credit.js";
 import Redirect from "./redirect.js";
 import GenPage from "./genpage.js";
-import {err} from "./global.js";
+import {document} from "./global.js"
 (async()=>{
     WriteCredit()
     const config = await LoadConfig()
@@ -23,14 +23,6 @@ import {err} from "./global.js";
         if(get_arg.s != undefined){
             document.documentElement.scrollTop += document.getElementById(get_arg.s).getBoundingClientRect().y;
     }});
-    let si = document.createElement("link");
-    let i = document.createElement("link");
-    si.rel = "shortcut icon";
-    i.rel = "icon";
-    si.href = config.icon;
-    i.href = config.icon;
-    document.head.appendChild(si);
-    document.head.appendChild(i);
     //#endregion
     window.l = Redirect;
 })();

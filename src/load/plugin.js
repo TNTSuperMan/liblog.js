@@ -1,7 +1,7 @@
 import {err,plugin,warn} from "../global.js";
 export default async config =>{
     const plugprom = config.plugin.map(e=>
-        import(e).then(async plugdata=>{
+        import(/*webpackIgnore:true*/e).then(async plugdata=>{
             if(typeof plugdata.func != "function"){
                 err("プラグインファイル\""+e+"\"でfunc関数が不足しています。")
             }else if(typeof plugdata.mode != "string"){

@@ -1,4 +1,4 @@
-import {plugin} from "./global.js"
+import {plugin,document} from "./global.js"
 function textplug(text){
     let ret = text
     plugin.text.forEach(e=>ret=e(ret))
@@ -96,11 +96,11 @@ const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回�
             case '@':
                 m = p.split('@')
                 if(m.length < 2) break;
-                let func = plugin.component.find(e=>e[1] == m[1])
-                if(!func)break;
+                let plugdata = plugin.component.find(e=>e[1] == m[1])
+                if(!plugdata)break;
                 m.shift()
                 m.shift()
-                now_elem().appendChild(func(m))
+                now_elem().appendChild(plugdata[0](m))
                 break;
         }
     });

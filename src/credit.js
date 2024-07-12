@@ -1,3 +1,4 @@
+import {document} from "./global.js"
 export default ()=>{
     let root = document.querySelector("html").getRootNode();
     root.prepend(document.createComment("https://github.com/TNTSuperMan/liblog.js"));

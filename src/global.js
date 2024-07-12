@@ -1,9 +1,17 @@
+export const is_debug = false
 export function err(msg){
-    alert("liblog.jsエラー：" + msg);
-    throw msg;
+    if(is_debug){
+        alert("liblog.jsエラー：" + msg);
+        throw msg;
+    }else{
+        alert("liblog.jsでエラーが発生しました。\n管理者に問い合わせてください。")
+        throw undefined;
+    }
 }
 export function warn(msg){
-    console.error("liblog.js警告："+msg)
+    if(is_debug){
+        console.error("liblog.js警告："+msg)
+    }
 }
 export let plugin = {
     text:[],
@@ -13,3 +21,4 @@ export let main_elm
 export var path = {}
 export const errpage = "404\n:p:404 Not Found\n" + 
     ":p:ページファイルが存在しません。";
+export const document = window.document

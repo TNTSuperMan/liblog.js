@@ -1,3 +1,4 @@
+import {err} from "../global.js"
 export default config =>{
     let ret = {base:[],name:[]};
     try{

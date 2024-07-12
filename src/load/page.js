@@ -1,4 +1,5 @@
-import {main_elm,errpage,path} from "../global.js"
+import {main_elm,errpage,path,document} from "../global.js"
+
 export default config =>{
     let page_promise = [];
     let page_elms = [];
