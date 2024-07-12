@@ -71,7 +71,7 @@ const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回�
 
                 m.forEach((k,i)=>{
                     if(i < 2) return;
-                    tt=tt.replace("%"+(i-1),k);
+                    tt=tt.replaceAll("%"+(i-1),k);
                 })
                 convert(tt,now_elem(),false,template);
                 break;
