@@ -73,7 +73,7 @@ const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回�
                     if(i < 2) return;
                     tt=tt.replace("%"+(i-1),k);
                 })
-                convert(tt,now_elem());
+                convert(tt,now_elem(),false,template);
                 break;
             case '&':
                 m = p.split(""); m[0]=null;

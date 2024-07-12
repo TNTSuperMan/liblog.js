@@ -1,6 +1,6 @@
 {
   "name": "liblog.js",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Whxuteの進化版",
   "scripts": {
     "serve": "cd dist && python -m http.server 8000",
