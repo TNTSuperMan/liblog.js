@@ -1,4 +1,4 @@
-import {err} from "../global.js"
+import {err,template} from "../global.js"
 export default config =>{
     let ret = {base:[],name:[]};
     try{
@@ -7,5 +7,6 @@ export default config =>{
     catch{
         err("テンプレートの記述が不正です");
     }
+    template = ret
     return ret;
 }
