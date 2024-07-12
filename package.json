@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Whxuteの進化版",
   "scripts": {
-    "start": "webpack --mode production --stats-error-details && cd dist && python -m http.server 8000",
+    "serve": "cd dist && python -m http.server 8000",
     "build": "webpack --mode production"
   },
   "author": "TNTSuperMan",
