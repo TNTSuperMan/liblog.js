@@ -1,10 +1,29 @@
-import {plugin,document} from "./global.js"
-function textplug(text){
+import {plugin,document,template} from "./global.js"
+const textplug=text=>{
     let ret = text
     plugin.text.forEach(e=>ret=e(ret))
     return ret
 }
-const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回のメイン＊
+
+const split_escape=(text,p)=>{
+    let rettxt = ["",""]
+    let idx = 1
+    for(let i = 1;i < text.length;i++){
+        if((p != "\\" && text[i] == "\\" || text[i] == "/") && 
+            i != (text.length - 1) && text[i + 1] == p){
+            rettxt[idx] += p
+            i++
+        }else if(text[i] == p){
+            rettxt.push("")
+            idx++
+        }else{
+            rettxt[idx] += text[i]
+        }
+    }
+    return rettxt
+}
+
+const convert = (text,elm,isMain)=>{ //ファイルを変換 ＊今回のメイン＊
     let layerElem = [elm];
     let now_txtelem = null;
     let is_txtmode = false;
@@ -37,11 +56,11 @@ const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回�
                     is_txtmode = true;
                 } else now_elem().innerHTML += "<br>";
 
-                m = p.split(""); m[0]=null;
-                now_elem().innerHTML += m.join("");
+                now_elem().innerHTML += p.substring(1)
                 break;
             case ':':
-                m = p.split(":");
+                //m = p.split(":");
+                m = split_escape(p,":")
                 if(m.length < 3) break;
                 m = textplug(m);
                 let m2 = document.createElement(m[1]);
@@ -52,7 +71,7 @@ const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回�
                 now_elem().appendChild(m2);
                 break;
             case '=':
-                m = p.split('=');
+                m = split_escape(p,"=")
                 if(m.length < 3) break;
                 m = textplug(m);
                 if(!now_txtelem){
@@ -62,7 +81,7 @@ const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回�
                 }
                 break;
             case '\\':
-                m = p.split("\\");
+                m =  split_escape(p,"\\")
                 if(m.length < 2) break;
                 m = textplug(m);
                 let ti = template.name.indexOf(m[1]);
@@ -73,7 +92,7 @@ const convert = (text,elm,isMain,template)=>{ //ファイルを変換 ＊今回�
                     if(i < 2) return;
                     tt=tt.replaceAll("%"+(i-1),k);
                 })
-                convert(tt,now_elem(),false,template);
+                convert(tt,now_elem(),false);
                 break;
             case '&':
                 m = p.split(""); m[0]=null;

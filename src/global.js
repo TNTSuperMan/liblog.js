@@ -1,5 +1,5 @@
 export const is_debug = false
-export function err(msg){
+export const err=msg=>{
     if(is_debug){
         alert("liblog.jsエラー：" + msg);
         throw msg;
@@ -8,7 +8,7 @@ export function err(msg){
         throw undefined;
     }
 }
-export function warn(msg){
+export const warn=msg=>{
     if(is_debug){
         console.error("liblog.js警告："+msg)
     }

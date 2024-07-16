@@ -4,5 +4,5 @@ export default id => { //ページ内移動
     history.replaceState('','',"?p=" + id);
     fetch(path.first + id + path.last)
         .then(e=>e.ok?e.text():errpage)
-        .then(e=>GenPage(e,main_elm,true,template))   
+        .then(e=>GenPage(e,main_elm,true))   
 }
