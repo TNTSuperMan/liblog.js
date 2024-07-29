@@ -19,7 +19,6 @@ export let plugin = {
 }
 export let main_elm
 export let path
-export const errpage = "404\n:p:404 Not Found\n" + 
-    ":p:ページファイルが存在しません。";
+export let notfound;
 export const document = window.document
 export let template

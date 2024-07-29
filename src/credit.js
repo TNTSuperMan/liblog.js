@@ -1,9 +1,11 @@
 import {document} from "./global.js"
 export default ()=>{
-    let root = document.querySelector("html").getRootNode();
-    root.prepend(document.createComment("https://github.com/TNTSuperMan/liblog.js"));
-    root.prepend(document.createComment("Powered by liblog.js by TNTSuperMan."));
+    const url = "https://github.com/TNTSuperMan/liblog.js"
+    const by = "Powered by liblog.js by TNTSuperMan."
+    const root = document.querySelector("html").getRootNode();
+    root.prepend(document.createComment(url));
+    root.prepend(document.createComment(by));
 
-    console.log("%c Powered by liblog.js by TNTSuperMan.", "font-size:20px");
-    console.log("https://github.com/TNTSuperMan/liblog.js");
+    console.log("%c "+by, "font-size:20px");
+    console.log(url);
 }

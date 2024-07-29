@@ -4,7 +4,6 @@ const textplug=text=>{
     plugin.text.forEach(e=>ret=e(ret))
     return ret
 }
-
 const split_escape=(text,p)=>{
     let rettxt = ["",""]
     let idx = 1
@@ -22,7 +21,6 @@ const split_escape=(text,p)=>{
     }
     return rettxt
 }
-
 const convert = (text,elm,isMain)=>{ //ファイルを変換 ＊今回のメイン＊
     let layerElem = [elm];
     let now_txtelem = null;

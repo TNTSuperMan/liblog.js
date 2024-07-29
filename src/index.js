@@ -12,9 +12,9 @@ import {document} from "./global.js"
     const page = LoadPage(config)
     const plugin = LoadPlugin(config)
     const temp = LoadTemplate(config)
-    await plugin;
     //#region ページ構築
     document.head.appendChild(document.createElement("title")); //タイトル要素
+    await plugin;
     Promise.all(page.text).then(ptxts=>
         page.elms.forEach((element,i)=>
             GenPage(ptxts[i],element,(page.ids[i]==="main"?1:0),temp)))

@@ -1,4 +1,4 @@
-import {main_elm,errpage,path,document} from "../global.js"
+import {main_elm,notfound,path,document} from "../global.js"
 
 export default config =>{
     let page_promise = [];
@@ -18,7 +18,7 @@ export default config =>{
         page_elms.push(pe);
         if(e.id === "main") main_elm = pe;
         page_promise.push(fetch(pass).then(e=>{
-            if(!e.ok) return errpage;
+            if(!e.ok) return notfound;
             return e.text();
         }).catch(e=>errpage));
         page_ids.push(e.id);
