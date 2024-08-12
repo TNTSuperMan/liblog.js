@@ -1,10 +1,10 @@
-import {plugin,document,template} from "./global.js"
-const textplug=text=>{
+import {plugin,document,template} from "./global"
+const textplug=(text:string[])=>{
     let ret = text
     plugin.text.forEach(e=>ret=e(ret))
     return ret
 }
-const split_escape=(text,p)=>{
+const split_escape=(text:string,p:string)=>{
     let rettxt = ["",""]
     let idx = 1
     for(let i = 1;i < text.length;i++){
@@ -21,17 +21,22 @@ const split_escape=(text,p)=>{
     }
     return rettxt
 }
-const convert = (text,elm,isMain)=>{ //ファイルを変換 ＊今回のメイン＊
+const convert = (text:string,elm:HTMLElement,isMain:boolean)=>{ //ファイルを変換 ＊今回のメイン＊
     let layerElem = [elm];
-    let now_txtelem = null;
+    let now_txtelem: HTMLElement;
+    let is_txt_enabled = false
     let is_txtmode = false;
     const now_elem = ()=>layerElem[layerElem.length-1]; 
     let is_native = false;
-    let m;
+    let m: string[];
+    let te: HTMLElement
     let st = text.split("\r").join('').split("\n");
     if(isMain){
         elm.innerHTML = "";
-        document.querySelector("title").innerText = st[0];
+        let title = document.querySelector("title")
+        if(title){
+            title.textContent = st[0]
+        }
     }
     st.forEach((p,i)=>{
         if(p[0] == '+') is_native = false;
@@ -43,14 +48,14 @@ const convert = (text,elm,isMain)=>{ //ファイルを変換 ＊今回のメイ�
             if(is_txtmode) layerElem.pop();
             is_txtmode = false;
         }
-        if(p[0]!=':' && p[0]!='=') now_txtelem = null;
+        if(p[0]!=':' && p[0]!='=') is_txt_enabled = false ;
         switch(p[0]){
             case '/':
                 if(p[1]==='/') break;
                 if(!is_txtmode){
-                    m = document.createElement("p");
-                    now_elem().appendChild(m);
-                    layerElem.push(m);
+                    te = document.createElement("p");
+                    now_elem().appendChild(te);
+                    layerElem.push(te);
                     is_txtmode = true;
                 } else now_elem().innerHTML += "<br>";
 
@@ -72,7 +77,7 @@ const convert = (text,elm,isMain)=>{ //ファイルを変換 ＊今回のメイ�
                 m = split_escape(p,"=")
                 if(m.length < 3) break;
                 m = textplug(m);
-                if(!now_txtelem){
+                if(!is_txt_enabled){
                     now_elem().setAttribute(m[1],m[2]);
                 }else{
                     now_txtelem.setAttribute(m[1],m[2]);
@@ -93,7 +98,8 @@ const convert = (text,elm,isMain)=>{ //ファイルを変換 ＊今回のメイ�
                 convert(tt,now_elem(),false);
                 break;
             case '&':
-                m = p.split(""); m[0]=null;
+                m = p.split(""); 
+                m[0]="";
                 now_elem().innerHTML += m.join("");
                 break;
             case '-':
@@ -117,7 +123,7 @@ const convert = (text,elm,isMain)=>{ //ファイルを変換 ＊今回のメイ�
                 if(!plugdata)break;
                 m.shift()
                 m.shift()
-                now_elem().appendChild(plugdata[0](m))
+                plugdata[0](m,(e:HTMLElement)=>now_elem().appendChild(e))
                 break;
         }
     });

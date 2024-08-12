@@ -1,9 +1,9 @@
-import {main_elm,notfound,path,document} from "../global.js"
-
-export default config =>{
-    let page_promise = [];
-    let page_elms = [];
-    let page_ids = [];
+import {setMainElement,notfound,path,document} from "../global"
+import {Config} from "../type"
+export default (config: Config) =>{
+    let page_promise: Promise<string>[] = [];
+    let page_elms: HTMLElement[] = [];
+    let page_ids: string[] = [];
     config.pagestruct.forEach(e=>{
         let pass = e.default;
         if(e.id === "main"){
@@ -13,14 +13,14 @@ export default config =>{
             }
         }
         let pe = document.createElement(e.ename);
-        if(e.attr)e.attr.forEach(v=>pe.setAttribute(v.name,v.value));
+        if(e.attr) e.attr.forEach(v=>pe.setAttribute(v.name,v.value));
         document.body.appendChild(pe);
         page_elms.push(pe);
-        if(e.id === "main") main_elm = pe;
+        if(e.id === "main") setMainElement(pe);
         page_promise.push(fetch(pass).then(e=>{
             if(!e.ok) return notfound;
             return e.text();
-        }).catch(e=>errpage));
+        }).catch(e=>notfound));
         page_ids.push(e.id);
     });
     return {

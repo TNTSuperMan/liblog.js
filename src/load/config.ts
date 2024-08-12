@@ -1,14 +1,14 @@
-import {err,path,warn,is_debug,document,notfound} from "../global.js";
+import {err,warn,is_debug,document,setNotFound, setPath} from "../global";
+import { Config } from "../type";
 export default async ()=>{
     const wtsf = await fetch("config.json");
     if(is_debug && !wtsf.ok)err("\"config.json\"にアクセスできません。\n")
-    let cfg = await wtsf.json().catch(e=>is_debug || err("\"config.json\"の記述が不正です。"))
+    let cfg: Config = await wtsf.json().catch(e=>err("\"config.json\"の記述が不正です。"))
     if(is_debug){
-        let eclist = [];
-        const adderr = m => eclist.push(m); //エラーダイアログの項目の追加関数
+        let eclist: string[] = [];
+        const adderr = (m:string) => eclist.push(m); //エラーダイアログの項目の追加関数
         if(!cfg.pagestruct) adderr("pagestruct");
-        if(!cfg.temp) adderr("temp"); 
-        if(!cfg.icon) warn("config.jsonで設定\"icon\"が欠如しています。");
+        if(!cfg.temp) warn("config.jsonで設定\"temp\"が欠損しています");
         if(!cfg.plugin) warn("config.jsonで設定\"plugin\"が欠如しています。");
         if(!cfg.notfound) warn("config.jsonで設定\"notfound\"が欠如しています。");
         if(!cfg.pagepath) adderr("pagepath"); else{
@@ -16,7 +16,7 @@ export default async ()=>{
             if(!cfg.pagepath.last) adderr("pagepath.last");
         }
         if(eclist.length != 0){
-            let res = "\"" + wtsetting + "\"で以下の設定が欠如しています。\n";
+            let res = "\"config.js\"で以下の設定が欠如しています。\n";
             eclist.forEach(e=>{
                 res += e + "\n";
             });
@@ -33,7 +33,7 @@ export default async ()=>{
         document.head.appendChild(si);
         document.head.appendChild(i);
     }
-    notfound = cfg.notfound
-    path = cfg.pagepath
+    setNotFound(cfg.notfound)
+    setPath(cfg.pagepath)
     return cfg;
 }
