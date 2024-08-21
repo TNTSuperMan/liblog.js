@@ -1,6 +1,6 @@
 import {err, warn, is_debug, document} from "../global";
 import { Config } from "../type";
-export default async ()=>{
+export default async function(){
     const wtsf = await fetch("config.json");
     if(is_debug && !wtsf.ok)err("\"config.json\"にアクセスできません。\n")
     let cfg: Config = await wtsf.json().catch(e=>err("\"config.json\"の記述が不正です。"))
