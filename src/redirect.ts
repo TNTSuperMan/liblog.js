@@ -1,11 +1,12 @@
-import {notfound,main_elm,path} from "./global"
+import {main_elm, document} from "./global"
 import GenPage from "./genpage"
-export default (id: string) => { //ページ内移動
-    history.replaceState('','',"?p=" + id);
-    fetch(path.first + id + path.last)
-        .then(e=>e.ok?e.text():notfound)
+import { Config, Plugin, Template } from "type";
+export default function(id: string, config: Config, template: Template, plugin: Plugin){ //ページ内移動
+    history.replaceState('', '', "?p=" + id);
+    fetch(config.path.first + id + config.path.last)
+        .then(e=>e.ok ? e.text() : config.notfound)
         .then(e=>{
-            document.documentElement.scrollTop=0
-            GenPage(e,main_elm,true);
+            document.documentElement.scrollTop = 0
+            GenPage(e, main_elm, template, plugin, true);
         })
 }

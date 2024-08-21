@@ -1,26 +1,27 @@
-import {setMainElement,notfound,path,document} from "../global"
-import {Config} from "../type"
+import { Config } from "type";
+import {setMainElement, document} from "../global"
 export default (config: Config) =>{
     let page_promise: Promise<string>[] = [];
     let page_elms: HTMLElement[] = [];
     let page_ids: string[] = [];
     config.pagestruct.forEach(e=>{
-        let pass = e.default;
-        if(e.id === "main"){
-            let z = Object.fromEntries(new URLSearchParams(window.location.search));
-            if(z.p != undefined){
-                pass = path.first + z.p + path.last;
+        let pagepath = e.default;
+        if(e.id == "main"){
+            let p = new URLSearchParams(window.location.search).get("p")
+            if(p){
+                pagepath = config.path.first + p + config.path.last;
             }
         }
         let pe = document.createElement(e.ename);
-        if(e.attr) e.attr.forEach(v=>pe.setAttribute(v.name,v.value));
         document.body.appendChild(pe);
+        if(e.attr) e.attr.forEach(v=>pe.setAttribute(v.name,v.value));
+        if(e.id == "main") setMainElement(pe);
+
         page_elms.push(pe);
-        if(e.id === "main") setMainElement(pe);
-        page_promise.push(fetch(pass).then(e=>{
-            if(!e.ok) return notfound;
+        page_promise.push(fetch(pagepath).then(e=>{
+            if(!e.ok) return config.notfound;
             return e.text();
-        }).catch(e=>notfound));
+        }).catch(e=>config.notfound));
         page_ids.push(e.id);
     });
     return {

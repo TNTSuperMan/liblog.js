@@ -1,5 +1,5 @@
 import {document} from "./global"
-export default ()=>{
+export default function(){
     const url = "https://github.com/TNTSuperMan/liblog.js"
     const by = "Powered by liblog.js by TNTSuperMan."
     const html = document.querySelector("html")

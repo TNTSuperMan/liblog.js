@@ -14,7 +14,7 @@ export type Config = {
     plugin?: string[],
     icon?: string,
     notfound: string,
-    pagepath: Path,
+    path: Path,
     pagestruct: {
         id: string,
         ename: string,
@@ -24,4 +24,8 @@ export type Config = {
             value: string
         }[]
     }[]
+}
+export type Plugin = {
+    text: Function[],
+    component: [Function, string][]
 }
