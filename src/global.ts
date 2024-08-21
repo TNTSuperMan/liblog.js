@@ -24,3 +24,10 @@ export function setTemplate(e: Template){
 }
 export const document = window.document
 export const createElement = (e:string)=>document.createElement(e)
+export function execDOM(fn: Function){
+    if(document.readyState == "loading"){
+        document.addEventListener("DOMContentLoaded",()=>fn())
+    }else{
+        fn()
+    }
+}

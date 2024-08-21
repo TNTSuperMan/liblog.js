@@ -1,4 +1,4 @@
-import { err, warn, is_debug, document } from "../global";
+import { err, warn, is_debug, document, execDOM } from "../global";
 import { Config } from "../type";
 export default async function(){
     const wtsf = await fetch("config.json");
@@ -23,15 +23,18 @@ export default async function(){
             err(res);
         }
     }
-    if(cfg.icon){
-        let si = document.createElement("link");
-        let i = document.createElement("link");
-        si.rel = "shortcut icon";
-        i.rel = "icon";
-        si.href = cfg.icon;
-        i.href = cfg.icon;
-        document.head.appendChild(si);
-        document.head.appendChild(i);
-    }
+    execDOM(()=>{
+        if(cfg.icon){
+            let si = document.createElement("link");
+            let i = document.createElement("link");
+            si.rel = "shortcut icon";
+            i.rel = "icon";
+            si.href = cfg.icon;
+            i.href = cfg.icon;
+            document.head.appendChild(si);
+            document.head.appendChild(i);
+        }
+    })
+    
     return cfg;
 }
