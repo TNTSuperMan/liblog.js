@@ -1,4 +1,4 @@
-import {Template} from "./type"
+import { Template } from "./type"
 export const is_debug:boolean = false
 export function err(msg: string){
     if(is_debug){

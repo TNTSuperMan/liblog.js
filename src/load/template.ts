@@ -1,5 +1,5 @@
-import {warn} from "../global"
-import {Config, Template} from "../type"
+import { warn } from "../global"
+import { Config, Template } from "../type"
 export default function(config: Config){
     let ret: Template = {base:[],name:[]};
     try{

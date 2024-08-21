@@ -5,7 +5,7 @@ import LoadTemplate from "./load/template";
 import WriteCredit from "./credit";
 import Redirect from "./redirect";
 import GenPage from "./genpage";
-import {document,createElement} from "./global"
+import { document, createElement } from "./global"
 (async()=>{
     WriteCredit()
     const config = await LoadConfig()

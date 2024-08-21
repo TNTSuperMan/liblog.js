@@ -24,11 +24,10 @@ function split_escape(text:string,p:string){
 }
 function convert(text: string, elm: HTMLElement, template: Template, plugin: Plugin, is_main: boolean){ //ファイルを変換 ＊今回のメイン＊
     let layerElem = [elm];
-    let now_txtelem: HTMLElement;
-    let is_txt_enabled = false
+    let last_elm: HTMLElement | null;
     let is_txtmode = false;
     let is_native = false;
-    let splText: string[];
+    let split_text: string[];
     let te: HTMLElement
     const now_elem = ()=>layerElem[layerElem.length-1]; 
     const st = text.split("\r").join('').split("\n");
@@ -49,7 +48,7 @@ function convert(text: string, elm: HTMLElement, template: Template, plugin: Plu
             if(is_txtmode) layerElem.pop();
             is_txtmode = false;
         }
-        if(p[0]!=':' && p[0]!='=') is_txt_enabled = false ;
+        if(p[0]!=':' && p[0]!='=') last_elm = null ;
         switch(p[0]){
             case '/':
                 if(p[1]==='/') break;
@@ -63,35 +62,36 @@ function convert(text: string, elm: HTMLElement, template: Template, plugin: Plu
                 now_elem().innerHTML += p.substring(1)
                 break;
             case ':':
-                splText = split_escape(p,":")
-                if(splText.length < 3) break;
-                splText = textplug(splText, plugin);
-                let m2 = createElement(splText[1]);
+                split_text = split_escape(p,":")
+                if(split_text.length < 3) break;
+                split_text = textplug(split_text, plugin);
+                let m2 = createElement(split_text[1]);
 
-                m2.innerHTML = splText[2];
-                now_txtelem = m2;
+                m2.innerHTML = split_text[2];
+                last_elm = m2;
+                
 
                 now_elem().appendChild(m2);
                 break;
             case '=':
-                splText = split_escape(p,"=")
-                if(splText.length < 3) break;
-                splText = textplug(splText, plugin);
-                if(!is_txt_enabled){
-                    now_elem().setAttribute(splText[1],splText[2]);
+                split_text = split_escape(p,"=")
+                if(split_text.length < 3) break;
+                split_text = textplug(split_text, plugin);
+                if(last_elm){
+                    last_elm.setAttribute(split_text[1],split_text[2]);
                 }else{
-                    now_txtelem.setAttribute(splText[1],splText[2]);
+                    now_elem().setAttribute(split_text[1],split_text[2]);
                 }
                 break;
             case '\\':
-                splText =  split_escape(p,"\\")
-                if(splText.length < 2) break;
-                splText = textplug(splText, plugin);
-                let ti = template.name.indexOf(splText[1]);
+                split_text =  split_escape(p,"\\")
+                if(split_text.length < 2) break;
+                split_text = textplug(split_text, plugin);
+                let ti = template.name.indexOf(split_text[1]);
                 if(ti<0)break;
                 let tt = template.base[ti];
 
-                splText.forEach((k,i)=>{
+                split_text.forEach((k,i)=>{
                     if(i < 2) return;
                     tt=tt.replaceAll("%"+(i-1),k);
                 })
@@ -101,27 +101,27 @@ function convert(text: string, elm: HTMLElement, template: Template, plugin: Plu
                 now_elem().innerHTML += p.substring(1)
                 break;
             case '-':
-                splText = p.split("-");
-                if(splText.length < 2) break;
+                split_text = p.split("-");
+                if(split_text.length < 2) break;
 
-                let g = createElement(splText[1]);
+                let g = createElement(split_text[1]);
                 now_elem().appendChild(g);
 
                 layerElem.push(g);
-                if(splText.length > 2) if(splText[2] === "DIRECT") is_native = true;
+                if(split_text.length > 2) if(split_text[2] === "DIRECT") is_native = true;
                 break;
             case '+':
                 is_native = false;
                 layerElem.pop();
                 break;
             case '@':
-                splText = split_escape(p, '@')
-                if(splText.length < 2) break;
-                let plugdata = plugin.component.find(e=>e[1] == splText[1])
+                split_text = split_escape(p, '@')
+                if(split_text.length < 2) break;
+                let plugdata = plugin.component.find(e=>e[1] == split_text[1])
                 if(!plugdata)break;
-                splText.shift()
-                splText.shift()
-                plugdata[0](splText,(e:HTMLElement)=>now_elem().appendChild(e))
+                split_text.shift()
+                split_text.shift()
+                plugdata[0](split_text,(e:HTMLElement)=>now_elem().appendChild(e))
                 break;
         }
     });

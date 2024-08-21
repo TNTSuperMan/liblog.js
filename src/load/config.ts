@@ -1,4 +1,4 @@
-import {err, warn, is_debug, document} from "../global";
+import { err, warn, is_debug, document } from "../global";
 import { Config } from "../type";
 export default async function(){
     const wtsf = await fetch("config.json");

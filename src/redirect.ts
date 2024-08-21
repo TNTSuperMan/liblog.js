@@ -1,4 +1,4 @@
-import {main_elm, document} from "./global"
+import { main_elm, document } from "./global"
 import GenPage from "./genpage"
 import { Config, Plugin, Template } from "type";
 export default function(id: string, config: Config, template: Template, plugin: Plugin){ //ページ内移動
