@@ -36,7 +36,7 @@ export default async function(config: Config){
                         break;
                 }
                 if(is_mode_valid){
-                    if(typeof plugdata.init !== "function"){
+                    if(is_debug && typeof plugdata.init !== "function"){
                         warn("プラグインファイル\""+e+"\"でinit関数が不足しています。")
                     }else{
                         const initres = plugdata.init()
