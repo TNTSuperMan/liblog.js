@@ -1,6 +1,6 @@
 import { Config } from "type";
 import {setMainElement, document} from "../global"
-export default (config: Config) =>{
+export default function(config: Config){
     let page_promise: Promise<string>[] = [];
     let page_elms: HTMLElement[] = [];
     let page_ids: string[] = [];

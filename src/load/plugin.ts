@@ -1,6 +1,6 @@
 import { Config, Plugin } from "type";
 import { warn, is_debug } from "../global";
-export default async (config: Config) =>{
+export default async function(config: Config){
     let plugin: Plugin = {
         text:[],
         component:[]
