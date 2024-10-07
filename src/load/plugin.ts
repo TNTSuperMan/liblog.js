@@ -1,17 +1,17 @@
 import { Config, Plugin } from "type";
 import { warn, is_debug } from "../global";
-export default async function(config: Config){
-    let plugin: Plugin = {
+export default async (config: Config)=>{
+    const plugin: Plugin = {
         text:[],
         component:[]
     }
     if(config.plugin){
         const plugprom: Promise<void>[] = config.plugin?.map(e=>
             import(/*webpackIgnore:true*/e).then(async (plugdata: {
-                func: Function,
+                func: ((e:HTMLElement)=>HTMLElement) | ((text:string,e:HTMLElement)=>HTMLElement),
                 mode: string,
                 name: string,
-                init: Function
+                init: ()=>void | Promise<void>
             })=>{
                 if(is_debug){
                     if(typeof plugdata.func != "function"){

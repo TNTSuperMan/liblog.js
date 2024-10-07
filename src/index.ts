@@ -6,7 +6,6 @@ import WriteCredit from "./credit";
 import Redirect from "./redirect";
 import GenPage from "./genpage";
 import { document, createElement, execDOM } from "./global"
-import plugin from "./load/plugin";
 (async()=>{
     WriteCredit()
     const config = await LoadConfig()
@@ -20,7 +19,7 @@ import plugin from "./load/plugin";
         page.elms.forEach((element,i)=>
             GenPage(pagetexts[i], element, template, plugin, page.ids[i] == "main"))
     
-        let scrollElement = document.getElementById(
+        const scrollElement = document.getElementById(
             new URLSearchParams(window.location.search).get("s") ?? "");
         if(scrollElement){
             document.documentElement.scrollTop += scrollElement.getBoundingClientRect().y;

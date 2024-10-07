@@ -1,5 +1,5 @@
 import { document, execDOM } from "./global"
-export default function(){
+export default ()=>{
     const url = "https://github.com/TNTSuperMan/liblog.js"
     const by = "Powered by liblog.js by TNTSuperMan."
     execDOM(()=>{

@@ -26,6 +26,6 @@ export type Config = {
     }[]
 }
 export type Plugin = {
-    text: Function[],
-    component: [Function, string][]
+    text: ((e:string[])=>string[])[],
+    component: [(text:string[],e:((e:HTMLElement)=>HTMLElement))=>HTMLElement, string][]
 }

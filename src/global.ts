@@ -1,6 +1,6 @@
 import { Template } from "./type"
 export const is_debug:boolean = false
-export function err(msg: string){
+export const err = (msg: string)=>{
     if(is_debug){
         alert("liblog.jsエラー：" + msg);
         throw msg;
@@ -9,22 +9,22 @@ export function err(msg: string){
         throw undefined;
     }
 }
-export function warn(msg: string){
+export const warn = (msg: string)=>{
     if(is_debug){
         console.warn("liblog.js警告："+msg)
     }
 }
 export let main_elm: HTMLElement
-export function setMainElement(e: HTMLElement){
+export const setMainElement = (e: HTMLElement)=>{
     main_elm = e
 }
 export let template: Template
-export function setTemplate(e: Template){
+export const setTemplate = (e: Template)=>{
     template = e
 }
 export const document = window.document
 export const createElement = (e:string)=>document.createElement(e)
-export function execDOM(fn: Function){
+export const execDOM = (fn: ()=>void)=>{
     if(document.readyState == "loading"){
         document.addEventListener("DOMContentLoaded",()=>fn())
     }else{
