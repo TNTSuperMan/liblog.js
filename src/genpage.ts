@@ -34,9 +34,8 @@ function convert(text: string, elm: HTMLElement, template: Template[], plugin: P
     if(is_main){
         elm.innerHTML = "";
         const title = document.querySelector("title")
-        if(title){
+        if(title)
             title.textContent = st[0]
-        }
     }
     let temp_elm:HTMLElement | undefined
     let temp_i:Template | undefined
