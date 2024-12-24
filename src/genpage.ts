@@ -38,9 +38,9 @@ function convert(text: string, elm: HTMLElement, template: Template[], plugin: P
             title.textContent = st[0]
         }
     }
-    let temp_elm:HTMLElement | null = null
+    let temp_elm:HTMLElement | undefined
     let temp_i:Template | undefined
-    let temp_text:string|null = null
+    let temp_text:string|undefined
     let temp_plg : [(str:string[],e:((e:HTMLElement)=>HTMLElement))=>HTMLElement, string] | undefined = undefined
     st.forEach((p)=>{
         if(p[0] == '+') is_native = false;
