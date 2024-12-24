@@ -32,7 +32,6 @@ export default async (config: Config)=>{
                         warn("プラグインファイル\""+e+"\"でname変数が不足しています。")
                     }
                 }
-                let is_mode_valid = true
                 switch(plugdata.mode){
                     case "text":
                         plugin.text.push(plugdata.func)
@@ -41,17 +40,14 @@ export default async (config: Config)=>{
                         plugin.component.push([plugdata.func,plugdata.name])
                         break;
                     default:
-                        is_mode_valid = false
                         warn("プラグインファイル\""+e+"\"のmode変数が不正です。")
-                        break;
+                        return;
                 }
-                if(is_mode_valid){
-                    if(is_debug && typeof plugdata.init !== "function"){
-                        warn("プラグインファイル\""+e+"\"でinit関数が不足しています。")
-                    }else{
-                        const initres = plugdata.init()
-                        if(initres instanceof Promise) await initres
-                    }
+                if(is_debug && typeof plugdata.init != "function"){
+                    warn("プラグインファイル\""+e+"\"でinit関数が不足しています。")
+                }else{
+                    const initres = plugdata.init()
+                    if(initres instanceof Promise) await initres
                 }
             }))
         await Promise.all(plugprom)
