@@ -27,7 +27,7 @@ function convert(text: string, elm: HTMLElement, template: Template[], plugin: P
     let last_elm: HTMLElement | null;
     let is_txtmode = false;
     let is_native = false;
-    let split_text: string[];
+    let splitted: string[];
     let te: HTMLElement
     const now_elem = ()=>layerElem[layerElem.length-1]; 
     const st = text.split("\r").join('').split("\n");
@@ -38,8 +38,8 @@ function convert(text: string, elm: HTMLElement, template: Template[], plugin: P
             title.textContent = st[0]
     }
     let temp_elm:HTMLElement | undefined
-    let temp_i:Template | undefined
-    let temp_text:string|undefined
+    let temp_data:Template | undefined
+    let temp_base:string|undefined
     let temp_plg : [(str:string[],e:((e:HTMLElement)=>HTMLElement))=>HTMLElement, string] | undefined = undefined
     st.forEach((p)=>{
         if(p[0] == '+') is_native = false;
@@ -65,68 +65,68 @@ function convert(text: string, elm: HTMLElement, template: Template[], plugin: P
                 now_elem().innerHTML += p.substring(1)
                 break;
             case ':':
-                split_text = split_escape(p,":")
-                if(split_text.length < 3) break;
-                split_text = textplug(split_text, plugin);
-                temp_elm = createElement(split_text[1]);
+                splitted = split_escape(p,":")
+                if(splitted.length < 3) break;
+                splitted = textplug(splitted, plugin);
+                temp_elm = createElement(splitted[1]);
 
-                temp_elm.innerHTML = split_text[2];
+                temp_elm.innerHTML = splitted[2];
                 last_elm = temp_elm;
                 
 
                 now_elem().appendChild(temp_elm);
                 break;
             case '=':
-                split_text = split_escape(p,"=")
-                if(split_text.length < 3) break;
-                split_text = textplug(split_text, plugin);
+                splitted = split_escape(p,"=")
+                if(splitted.length < 3) break;
+                splitted = textplug(splitted, plugin);
                 if(last_elm){
-                    last_elm.setAttribute(split_text[1],split_text[2]);
+                    last_elm.setAttribute(splitted[1],splitted[2]);
                 }else{
-                    now_elem().setAttribute(split_text[1],split_text[2]);
+                    now_elem().setAttribute(splitted[1],splitted[2]);
                 }
                 break;
             case '\\':
-                split_text =  split_escape(p,"\\")
-                if(split_text.length < 2) break;
-                split_text = textplug(split_text, plugin);
-                temp_i = template.find(e=>e.name==split_text[1]);
-                if(!temp_i)break;
-                temp_text = temp_i.base;
+                splitted =  split_escape(p,"\\")
+                if(splitted.length < 2) break;
+                splitted = textplug(splitted, plugin);
+                temp_data = template.find(e=>e.name==splitted[1]);
+                if(!temp_data)break;
+                temp_base = temp_data.base;
                 
-                split_text.forEach((k,i)=>{
+                splitted.forEach((k,i)=>{
                     if(i < 2) return;
-                    if(temp_text){
-                        temp_text=temp_text.replaceAll("%"+(i-1),k);
+                    if(temp_base){
+                        temp_base=temp_base.replaceAll("%"+(i-1),k);
                     }
                 })
-                convert(temp_text, now_elem(), template, plugin, false);
+                convert(temp_base, now_elem(), template, plugin, false);
                 break;
             case '&':
                 now_elem().innerHTML += p.substring(1)
                 break;
             case '-':
-                split_text = p.split("-");
-                if(split_text.length < 2) break;
+                splitted = p.split("-");
+                if(splitted.length < 2) break;
 
-                temp_elm = createElement(split_text[1]);
+                temp_elm = createElement(splitted[1]);
                 now_elem().appendChild(temp_elm);
 
                 layerElem.push(temp_elm);
-                if(split_text.length > 2) if(split_text[2] === "DIRECT") is_native = true;
+                if(splitted.length > 2) if(splitted[2] === "DIRECT") is_native = true;
                 break;
             case '+':
                 is_native = false;
                 layerElem.pop();
                 break;
             case '@':
-                split_text = split_escape(p, '@')
-                if(split_text.length < 2) break;
-                temp_plg = plugin.component.find(e=>e[1] == split_text[1])
+                splitted = split_escape(p, '@')
+                if(splitted.length < 2) break;
+                temp_plg = plugin.component.find(e=>e[1] == splitted[1])
                 if(!temp_plg)break;
-                split_text.shift()
-                split_text.shift()
-                temp_plg[0](split_text,(e:HTMLElement)=>now_elem().appendChild(e))
+                splitted.shift()
+                splitted.shift()
+                temp_plg[0](splitted,(e:HTMLElement)=>now_elem().appendChild(e))
                 break;
         }
     });
