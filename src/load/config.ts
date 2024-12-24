@@ -8,7 +8,7 @@ export default async ()=>{
         const eclist: string[] = [];
         const adderr = (m:string) => eclist.push(m); //エラーダイアログの項目の追加関数
         if(!cfg.pagestruct) adderr("pagestruct");
-        if(!cfg.temp) warn("config.jsonで設定\"temp\"が欠損しています");
+        if(!cfg.temp) warn("config.jsonで設定\"temp\"が欠如しています");
         if(!cfg.plugin) warn("config.jsonで設定\"plugin\"が欠如しています。");
         if(!cfg.notfound) warn("config.jsonで設定\"notfound\"が欠如しています。");
         if(!cfg.path) adderr("path"); else{
