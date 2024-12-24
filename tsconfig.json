@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
-      "target": "es2020",
+      "target": "esnext",
       "module": "esnext",
-      "lib": ["ES2021", "dom"],
+      "lib": ["ESNext", "dom"],
       "jsx": "react",
       "sourceMap": true,
       "outDir": "./dist",

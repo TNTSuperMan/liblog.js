@@ -124,9 +124,7 @@ function convert(text: string, elm: HTMLElement, template: Template[], plugin: P
                 if(splitted.length < 2) break;
                 temp_plg = plugin.component.find(e=>e[1] == splitted[1])
                 if(!temp_plg)break;
-                splitted.shift()
-                splitted.shift()
-                temp_plg[0](splitted,(e:HTMLElement)=>now_elem().appendChild(e))
+                temp_plg[0](splitted.toSpliced(0, 2),(e:HTMLElement)=>now_elem().appendChild(e))
                 break;
         }
     });
