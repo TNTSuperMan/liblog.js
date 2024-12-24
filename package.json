@@ -4,7 +4,6 @@
   "description": "Whxuteの進化版",
   "type": "module",
   "scripts": {
-    "serve": "cd dist && python -m http.server 8000",
     "build": "webpack --mode production"
   },
   "author": "TNTSuperMan",
