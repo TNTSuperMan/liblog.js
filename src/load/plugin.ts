@@ -1,18 +1,28 @@
-import { Config, Plugin } from "type";
+import { Config, PluginData } from "type";
 import { warn, is_debug } from "../global";
+
+type TextPlugin = {
+    func: ((e: string[]) => string[])
+    mode: "text",
+    name: string,
+    init: () => void | Promise<void>
+}
+type ComponentPlugin = {
+    func: (text: string[], e: (e: HTMLElement) => HTMLElement) => HTMLElement,
+    mode: "component",
+    name: string,
+    init: () => void | Promise<void>
+}
+type Plugin = TextPlugin | ComponentPlugin;
+
 export default async (config: Config)=>{
-    const plugin: Plugin = {
+    const plugin: PluginData = {
         text:[],
         component:[]
     }
     if(config.plugin){
         const plugprom: Promise<void>[] = config.plugin?.map(e=>
-            import(/*webpackIgnore:true*/e).then(async (plugdata: {
-                func: ((e:HTMLElement)=>HTMLElement) | ((text:string,e:HTMLElement)=>HTMLElement),
-                mode: string,
-                name: string,
-                init: ()=>void | Promise<void>
-            })=>{
+            import(/*webpackIgnore:true*/e).then(async (plugdata: Plugin)=>{
                 if(is_debug){
                     if(typeof plugdata.func != "function"){
                         warn("プラグインファイル\""+e+"\"でfunc関数が不足しています。")

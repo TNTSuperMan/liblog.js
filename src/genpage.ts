@@ -1,6 +1,6 @@
-import { Plugin, Template } from "type"
+import { PluginData, Template } from "type"
 import { document, createElement } from "./global"
-function textplug(text:string[], plugin: Plugin){
+function textplug(text:string[], plugin: PluginData){
     let ret = text
     plugin.text.forEach(e=>ret=e(ret))
     return ret
@@ -22,7 +22,7 @@ function split_escape(text:string,p:string){
     }
     return rettxt
 }
-function convert(text: string, elm: HTMLElement, template: Template, plugin: Plugin, is_main: boolean){ //ファイルを変換 ＊今回のメイン＊
+function convert(text: string, elm: HTMLElement, template: Template, plugin: PluginData, is_main: boolean){ //ファイルを変換 ＊今回のメイン＊
     const layerElem = [elm];
     let last_elm: HTMLElement | null;
     let is_txtmode = false;
