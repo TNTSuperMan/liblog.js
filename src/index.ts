@@ -1,7 +1,6 @@
 import LoadConfig from "./load/config";
 import LoadPage from "./load/page";
 import LoadPlugin from "./load/plugin";
-import LoadTemplate from "./load/template";
 import WriteCredit from "./credit";
 import Redirect from "./redirect";
 import GenPage from "./genpage";
@@ -10,14 +9,13 @@ import { document, createElement, execDOM } from "./global"
     WriteCredit()
     const config = await LoadConfig()
     const page = LoadPage(config)
-    const template = LoadTemplate(config)
     const plugin = await LoadPlugin(config)
 
     execDOM(async()=>{
         document.head.appendChild(createElement("title")); //タイトル要素
         const pagetexts = await Promise.all(page.text)
         page.elms.forEach((element,i)=>
-            GenPage(pagetexts[i], element, template, plugin, page.ids[i] == "main"))
+            GenPage(pagetexts[i], element, config.temp??[], plugin, page.ids[i] == "main"))
     
         const scrollElement = document.getElementById(
             new URLSearchParams(window.location.search).get("s") ?? "");
@@ -27,5 +25,5 @@ import { document, createElement, execDOM } from "./global"
     })
     
     
-    Object.defineProperty(window,"l",{get:()=>(id:string)=>Redirect(id, config, template, plugin)})
+    Object.defineProperty(window,"l",{get:()=>(id:string)=>Redirect(id, config, config.temp??[], plugin)})
 })();

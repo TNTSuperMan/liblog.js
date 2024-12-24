@@ -22,7 +22,7 @@ function split_escape(text:string,p:string){
     }
     return rettxt
 }
-function convert(text: string, elm: HTMLElement, template: Template, plugin: PluginData, is_main: boolean){ //ファイルを変換 ＊今回のメイン＊
+function convert(text: string, elm: HTMLElement, template: Template[], plugin: PluginData, is_main: boolean){ //ファイルを変換 ＊今回のメイン＊
     const layerElem = [elm];
     let last_elm: HTMLElement | null;
     let is_txtmode = false;
@@ -39,7 +39,7 @@ function convert(text: string, elm: HTMLElement, template: Template, plugin: Plu
         }
     }
     let temp_elm:HTMLElement | null = null
-    let temp_i:number | null = null
+    let temp_i:Template | undefined
     let temp_text:string|null = null
     let temp_plg : [(str:string[],e:((e:HTMLElement)=>HTMLElement))=>HTMLElement, string] | undefined = undefined
     st.forEach((p)=>{
@@ -91,9 +91,9 @@ function convert(text: string, elm: HTMLElement, template: Template, plugin: Plu
                 split_text =  split_escape(p,"\\")
                 if(split_text.length < 2) break;
                 split_text = textplug(split_text, plugin);
-                temp_i = template.name.indexOf(split_text[1]);
-                if(temp_i<0)break;
-                temp_text = template.base[temp_i];
+                temp_i = template.find(e=>e.name==split_text[1]);
+                if(!temp_i)break;
+                temp_text = temp_i.base;
                 
                 split_text.forEach((k,i)=>{
                     if(i < 2) return;

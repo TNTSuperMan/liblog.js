@@ -3,14 +3,11 @@ export type Path = {
     last: string
 }
 export type Template = {
-    base: string[],
-    name: string[]
+    base: string,
+    name: string
 }
 export type Config = {
-    temp?: {
-        name: string,
-        base: string
-    }[],
+    temp?: Template[],
     plugin?: string[],
     icon?: string,
     notfound: string,
